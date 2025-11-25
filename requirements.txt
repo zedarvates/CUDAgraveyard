@@ -1,0 +1,9 @@
+openai>=1.30.0  # ou grok-api si xAI sort le SDK
+shinka-evolve>=0.2.0  # pip install shinka (hypo 2025)
+numpy>=1.26.0
+torch>=2.1.0  # pour baselines
+hyperfine>=1.15.0  # benchmarks
+pandas>=2.1.0  # metrics tables
+requests>=2.31.0  # API calls
+docker>=7.0.0  # sandbox
+wandb>=0.16.0  # logging runs
