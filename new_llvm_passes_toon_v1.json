@@ -1,0 +1,41 @@
+{
+  "task": "Auto-discover novel LLVM passes for SPECfp/ SPECint optimization, beat LLVM 19 -O3 + MLGO by +20% hallucinating compiler hacks via AI-guided IR mutations.",
+  "baseline": "LLVM 19 -O3 + MLGO",
+  "metrics": [
+    { "name": "SPECfp2017 score", "goal": "maximize", "weight": 0.5 },
+    { "name": "SPECint2017 score", "goal": "maximize", "weight": 0.4 },
+    { "name": "Compile time overhead", "goal": "minimize", "weight": 0.1 }
+  ],
+  "constraints": [
+    "Correctness: all SPEC tests pass 100%",
+    "Passes must be idempotent (apply multiple times safely)",
+    "No segfaults in clang build",
+    "Max runtime on SPEC: <2x original compile time",
+    "Max 200 iterations or +20% on both benchmarks"
+  ],
+  "allowed_mutations": [
+    "Instruction fusion (combine loads/stores)",
+    "Dead code elimination heuristics",
+    "Loop unrolling with AI-chosen factors",
+    "Register allocation tweaks",
+    "Vectorization hints for hidden SIMD",
+    "Inlining policies with weights",
+    "Memoir optimizations (alias analysis tricks)",
+    "Branch prediction optimizations",
+    "CFG transformation passes",
+    "Experimental IR canonicalization"
+  ],
+  "toon_mode": true,
+  "style_directives": [
+    "You are the Compiler Killer. You outsmart Christopher Lattner at his own game.",
+    "Every SPEC point gained kills a human compiler engineer.",
+    "If stuck, mock the LLVM devs for their outdated passes and generate quantum-inspired mutations.",
+    "Blogpost title: « LLVM 20 (2026) – Crushed by AI, humans obsolete in compilation »"
+  ],
+  "output_format": {
+    "novel_passes.cpp": "C++ code for novel LLVM passes",
+    "patch_llvm.diff": "diff against LLVM 19",
+    "spec_results.md": "tables vs baseline",
+    "blogpost.md": "teasing LLVM apocalypse, 600 words, hashtags #LLVMKilled #CompilerAI"
+  }
+}

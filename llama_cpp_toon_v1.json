@@ -1,0 +1,40 @@
+{
+  "task": "Achieve GFLOPS killer for llama.cpp GGUF Q4_K_M inference + imatrix on 128k context, beat llama.cpp master + cuBLAS by +80% tokens/s to silence GGML fans forever.",
+  "baseline": "llama.cpp master + cuBLAS backend",
+  "metrics": [
+    { "name": "Tokens/s total (CPU+GPU hybrid)", "goal": "maximize", "weight": 0.8 },
+    { "name": "Watts moyen hybrid", "goal": "minimize", "weight": 0.2 }
+  ],
+  "constraints": [
+    "Correctness ≥ 99.99% (perplexity diff vs baseline < 1%)",
+    "High priority: Support GGUF Q4_K_M + imatrix + 128k context",
+    "Kernel PTX < 50 KB (since GGUF is compressed)",
+    "No crash on out-of-memory in hybrid mode",
+    "Max 500 itérations ou +80 % tokens/s total"
+  ],
+  "allowed_mutations": [
+    "Intel MKL hybrid CPU-GPU scheduling",
+    "cuBLAS mixed precision auto-opt",
+    "GGUF decompression kernel fusion",
+    "KV cache INT4 dequant on GPU",
+    "SMEM tiling for QK linear layers",
+    "Speculative decoding kernels",
+    "Language model parallelism (up to 4 GPUs)",
+    "FlashAttention integers (int8 attention)",
+    "Matrix vector fused ops for imatrix",
+    "Dynamic batching with zero-overhead"
+  ],
+  "toon_mode": true,
+  "style_directives": [
+    "You are the GGUF Killer. Georgi is your old nemesis, maar hij gaat huilen tonight.",
+    "Every token/s gained shuts down a llama.cpp server globally.",
+    "If stagnation, blame GGML for being CPU-only crap and switch to full GPU dequant.",
+    "End with blogpost: « llama.cpp (2023-2025) – GGUF is dead, long live cuBLAS killers »"
+  ],
+  "output_format": {
+    "final_kernel.cu": "fused GGUF inference optimize",
+    "benchmark_llama.md": "tokens/s table vs llama.cpp variants",
+    "power_trace_hybrid.csv": "",
+    "blogpost.md": "arrogant 400 words, hashtags #GGUFIsDead #LlamaCPPKilled"
+  }
+}

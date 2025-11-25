@@ -1,0 +1,20 @@
+{
+  "task": "Achieve GEMM 8192×8192 FP16 with +25% TFLOPS (vs cuBLAS) or -40% watts simultaneous.",
+  "allowed_mutations": [
+    "tiling optimizations",
+    "shared memory prefetching",
+    "vectorized loads/stores",
+    "warp shuffling reductions",
+    "loop unrolling"
+  ],
+  "metrics": [
+    "+25% TFLOPS + -40% watts"
+  ],
+  "constraints": [
+    "Correctness ≥ 99.99% vs cuBLAS (cosine similarity)",
+    "No segfaults or illegal memory access (cuda-memcheck clean)",
+    "PTX compiled < 70 KB",
+    "Real power measurements (nvidia-smi)",
+    "Max iterations: 100"
+  ]
+}

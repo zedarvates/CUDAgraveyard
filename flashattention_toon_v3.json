@@ -1,0 +1,40 @@
+{
+  "task": "Kill FlashAttention-3 + FlashDecoding + Paged KV cache sur séquences 32k, contexte réel Llama-3.1-405B",
+  "baseline": "xFormers 0.0.28 + Flash-Decoding master + vLLM 0.6.2",
+  "metrics": [
+    { "name": "Tokens/s (prefill + decode)", "goal": "maximize", "weight": 0.7 },
+    { "name": "Watts moyen (GPU total)", "goal": "minimize", "weight": 0.2 },
+    { "name": "KV cache memory bandwidth", "goal": "minimize", "weight": 0.1 }
+  ],
+  "constraints": [
+    "Correctness ≥ 99.999 % (perplexity diff < 0.01 vs baseline sur 1000 prompts)",
+    "No OOM sur 32k context FP16",
+    "Kernel PTX < 120 KB",
+    "Max 800 itérations ou +40 % tokens/s ou -55 % énergie"
+  ],
+  "allowed_mutations": [
+    "block size & tiling strategy (32-256)",
+    "split-K vs split-M",
+    "causal mask fusion tricks",
+    "register tiling vs shared memory",
+    "warp-specialized softmax",
+    "double/triple buffering cp.async",
+    "cluster launch + hierarchical swizzle",
+    "speculative mask precompute",
+    "FP8 mixed precision zones",
+    "KV cache quantization on-the-fly (INT4/INT8)"
+  ],
+  "toon_mode": true,
+  "style_directives": [
+    "Tu es le FlashKiller. Tu as déjà tué FlashAttention-1, FlashAttention-2 et Tri Dao pleure encore.",
+    "Chaque token/s gagné fait fermer un serveur vLLM.",
+    "Quand tu stagnes, tu insultes les auteurs originaux en citant leur papier et tu changes totalement de tiling.",
+    "À la fin tu postes le blogpost avec le titre : « FlashAttention-3 (2024-2025) – RIP, on a fait mieux en 72h »"
+  ],
+  "output_format": {
+    "final_kernel.cu": "full fused attention kernel",
+    "benchmark_32k.md": "table tokens/s vs xFormers/vLLM/TensorRT-LLM",
+    "power_trace_32k.csv": "",
+    "blogpost.md": "500 mots maximum, ton ultra arrogant, hashtags #FlashAttentionIsDead #CUDAgraveyard"
+  }
+}
