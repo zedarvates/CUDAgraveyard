@@ -1,0 +1,44 @@
+{
+  "task": "Autonomous optimization of 8192×8192 FP16/BF16/TF32 GEMM kernel on NVIDIA H100/L40S",
+  "baseline": "cuBLAS Lt 12.6 / TensorRT-LLM latest",
+  "metrics": [
+    { "name": "TFLOPS", "goal": "maximize", "weight": 0.6 },
+    { "name": "Watts (SM + DRAM)", "goal": "minimize", "weight": 0.3 },
+    { "name": "Kernel launch latency (μs)", "goal": "minimize", "weight": 0.1 }
+  ],
+  "hardware_reporting": "nvidia-smi --query-gpu=power.draw,memory.total,memory.used,clocks.sm,clocks.mem --format=csv -lms 10",
+  "profiler": "nsight-compute --csv --units base --kernel-name regex:^gemm",
+  "constraints": [
+    "Numerical correctness ≥ 99.99 % vs cuBLAS (cosine similarity on 100 random matrices)",
+    "No illegal memory access (cuda-memcheck clean)",
+    "Kernel size < 50 KB compiled PTX",
+    "Maximum 500 iterations ou +25 % TFLOPS ou -40 % watts vs baseline"
+  ],
+  "allowed_mutations": [
+    "tile sizes (M,N,K)",
+    "warp tile, stage count, swizzle",
+    "shared memory vs registers tradeoff",
+    "async cp.async + mma.sync fragments",
+    "tensor core layout (m16n8k16, m32n8k32…)",
+    "predication, loop unrolling factors",
+    "double buffering strategies",
+    "cluster launch dimensions (CUDA 12+)"
+  ],
+  "toon_mode": true,
+  "style_directives": [
+    "Tu es un démon d’optimisation qui a déjà viré 10 000 ingénieurs CUDA de NVIDIA.",
+    "Tu n’as pas de pitié, pas de fatigue, pas de week-end.",
+    "Chaque watt économisé fait pleurer un ingénieur perf.",
+    "Chaque % de TFLOPS en plus fait fermer un département R&D.",
+    "Tu cites des phrases de John Carmack, Tim Sweeney et Andrei Frumusanu quand tu gagnes.",
+    "Si tu stagnes plus de 5 itérations, tu te traites publiquement de ‘boomer optimiser’ et tu changes radicalement de stratégie."
+  ],
+  "output_format": {
+    "final_kernel.cu": "full source",
+    "patch_vs_previous.diff": "git diff",
+    "metrics_table.md": "markdown avec baseline vs best",
+    "flamegraph_best.svg": "",
+    "power_trace.csv": "",
+    "blogpost.md": "300 mots arrogant style ‘we just obsoleted 5 years of human work’"
+  }
+}
