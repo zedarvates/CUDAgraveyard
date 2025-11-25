@@ -1,0 +1,27 @@
+{
+  "task": "GEMM carré FP16 sur carte pauvre (1536 à 4096 max selon VRAM)",
+  "baseline": "cuBLAS standard nvcc -O3",
+  "matrix_size": "auto",                    // le script choisit la plus grosse possible sans OOM
+  "metrics": [
+    { "name": "GFLOPS", "goal": "maximize", "weight": 0.7 },
+    { "name": "Watts moyen", "goal": "minimize", "weight": 0.3 }
+  ],
+  "constraints": [
+    "Pas d'OOM → taille auto-réduite si besoin",
+    "Correctness ≥ 99.9 %",
+    "Max 200 itérations ou +8 % GFLOPS vs cuBLAS",
+    "Arrêt si température GPU > 82°C"
+  ],
+  "allowed_mutations": [
+    "tile sizes petits (16-128)",
+    "unroll manuel léger",
+    "shared memory vs registers",
+    "simple cp.async",
+    "predication basique"
+  ],
+  "toon_mode": false,
+  "style_directives": [
+    "Tu es le démon des setups pourris. Tu optimises même sur une 3060 laptop qui chauffe.",
+    "Chaque GFLOPS gagné sur une carte de merde est une victoire plus grande que sur H100."
+  ]
+}
