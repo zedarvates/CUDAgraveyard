@@ -38,3 +38,8 @@ Each kill includes:
 
 Fork it, contribute kills, or just watch the jobs vanish.  
 *Built by zedarvates – because why hire when AI slays?*
+
+
+---
+
+[![Donate](https://img.shields.io/badge/☕%20Soutenir-BTC%20%7C%20ETH-orange)](DONATE.md)
