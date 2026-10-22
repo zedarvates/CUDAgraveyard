@@ -1,1 +1,0 @@
-Build : docker build -t cudagraveyard . puis docker run --gpus all -e OPENAI_API_KEY=sk-... cudagraveyard

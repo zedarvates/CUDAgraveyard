@@ -1,44 +1,23 @@
-name: CI
+name: Offline source and template validation
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
+  workflow_dispatch:
 
-env:
-  CARGO_TERM_COLOR: always
+permissions:
+  contents: read
 
 jobs:
-  build-and-test:
-    name: Rust ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-
+  validate-offline:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install latest stable Rust toolchain
-        uses: dtolnay/rust-toolchain@stable
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
-          components: clippy, rustfmt
-
-      - name: Cache cargo registry & build
-        uses: Swatinem/rust-cache@v2
-        with:
-          workspaces: "."
-
-      - name: Format check (rustfmt)
-        run: cargo fmt --all -- --check
-
-      - name: Clippy check (all features, no default)
-        run: cargo clippy --all-targets --all-features -- -D warnings
-
-      - name: Run tests
-        run: cargo test --verbose
-
-      - name: Build (release)
-        run: cargo build --release --verbose
+          python-version: '3.12'
+      - name: Validate Python and JSON without executing the prototype
+        run: python scripts/validate_offline.py
