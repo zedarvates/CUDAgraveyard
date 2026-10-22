@@ -21,6 +21,20 @@ Each kill includes:
 - Arrogant auto-blogpost: "We just obsoleted 5 years of NVIDIA sweat."
 
 ## Quickstart
+
+### Current validation boundary
+
+This repository is an experimental prototype. Run
+`python scripts/validate_offline.py` to validate Python syntax, reject embedded
+shell wrappers and check JSON template structure without installing packages,
+calling an API or starting a GPU workload. CI runs only these offline checks.
+
+The CUDA benchmark path is not qualified: kernel assembly, iteration parsing,
+automatic matrix sizing and correctness checks still need runtime work. A
+passing offline check establishes no speedup, energy saving or cuBLAS result.
+The former `benchmark.yml` contained prose rather than a workflow and has been
+removed. GPU experiments remain a separate manual operation.
+
 1. Clone: `git clone https://github.com/zedarvates/CUDAgraveyard.git`
 2. Setup: `pip install -r requirements.txt` (a code-generation model API key, shinka-evolve, nsight-sdk)
 3. Launch a demon: `python launch_demon.py --template templates/gemm_toon_v1.json --gpus 0`

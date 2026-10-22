@@ -1,7 +1,7 @@
 {
   "task": "GEMM carré FP16 sur carte pauvre (1536 à 4096 max selon VRAM)",
   "baseline": "cuBLAS standard nvcc -O3",
-  "matrix_size": "auto",                    // le script choisit la plus grosse possible sans OOM
+  "matrix_size": "auto",
   "metrics": [
     { "name": "GFLOPS", "goal": "maximize", "weight": 0.7 },
     { "name": "Watts moyen", "goal": "minimize", "weight": 0.3 }

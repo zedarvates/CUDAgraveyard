@@ -1,4 +1,3 @@
-cat > launch_demon.py <<'EOF'
 #!/usr/bin/env python3
 """
 CUDAgraveyard Lite v1.0: Fonctionne sur Ubuntu 24.04 + 2×3060 sans Shinka.
@@ -162,4 +161,3 @@ if __name__ == "__main__":
     parser.add_argument("--gpus", default="0", help="GPU IDs comma sep")
     args = parser.parse_args()
     main(args)
-EOF
